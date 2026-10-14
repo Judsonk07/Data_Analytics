@@ -1,7 +1,13 @@
-use healthplus_care_db;
+-- use healthplus_care_db;
 
 
 -- clinics validation
+SELECT clinic_id, COUNT(*) AS total
+FROM clinics
+GROUP BY clinic_id
+HAVING COUNT(*) > 1;
+
+
 
 -- duplicate primary keys
 select clinic_id, count(*) as count
@@ -18,6 +24,21 @@ or city is null
 or state is null
 or established_year is null
 or contact_number is null;
+
+
+SELECT
+    c.claim_id,
+    c.member_id
+FROM claims AS c
+LEFT JOIN members AS m
+    ON c.member_id = m.member_id
+WHERE c.member_id IS NOT NULL
+  AND m.member_id IS NULL;
+  
+  
+  SELECT *
+FROM claims
+WHERE member_id IS NULL;
 
 -- blank values
 select *

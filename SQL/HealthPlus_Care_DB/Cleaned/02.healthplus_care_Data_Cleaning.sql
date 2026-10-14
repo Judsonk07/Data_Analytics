@@ -1,19 +1,55 @@
-use healthplus_care_db;
+-- use healthplus_care_db;
+
+-- DESCRIBE specialists;
+
+SELECT
+    specialist_id,
+    experience_years,
+    consultation_fee
+FROM specialists;
 
 
--- specialists table data cleaning
+UPDATE specialists
+SET gender = CASE
+    WHEN LOWER(TRIM(gender)) IN ('m', 'male')
+        THEN 'Male'
+    WHEN LOWER(TRIM(gender)) IN ('f', 'female')
+        THEN 'Female'
+    ELSE NULLIF(TRIM(gender), '')
+END
+WHERE specialist_id IS NOT NULL;
 
-update specialists
-set
-first_name = nullif(trim(first_name),''),
-last_name = nullif(trim(last_name),''),
-gender = nullif(trim(gender),''),
-specialization = nullif(trim(specialization),''),
-clinic_id = nullif(trim(clinic_id),''),
-qualification = nullif(trim(qualification),''),
-experience_years = nullif(experience_years,''),
-consultation_fee = nullif(consultation_fee,'')
-where specialist_id is not null;
+
+SELECT *
+FROM specialists
+LIMIT 20;
+
+-- SET SQL_SAFE_UPDATES = 0;
+-- -- specialists table data cleaning
+
+-- update specialists
+-- set
+-- first_name = nullif(trim(first_name),''),
+-- last_name = nullif(trim(last_name),''),
+-- gender = nullif(trim(gender),''),
+-- specialization = nullif(trim(specialization),''),
+-- clinic_id = nullif(trim(clinic_id),''),
+-- qualification = nullif(trim(qualification),''),
+-- experience_years = nullif(experience_years,''),
+-- consultation_fee = nullif(consultation_fee,'')
+-- where specialist_id is not null;
+
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE specialists
+SET
+    first_name = NULLIF(TRIM(first_name), ''),
+    last_name = NULLIF(TRIM(last_name), ''),
+    gender = NULLIF(TRIM(gender), ''),
+    specialization = NULLIF(TRIM(specialization), ''),
+    clinic_id = NULLIF(TRIM(clinic_id), ''),
+    qualification = NULLIF(TRIM(qualification), '')
+WHERE specialist_id IS NOT NULL;
 
 
 update specialists
